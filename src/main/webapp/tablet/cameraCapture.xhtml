@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:mobi="http://www.icesoft.com/icefaces/mobile/component">
+
+    <h:head>
+        <title>Capture Documents</title>
+    </h:head>
+    <h:body>
+        <h:form prependId="false" id="cameraform">
+            <mobi:fieldsetGroup styleClass="intro">
+                <mobi:fieldsetRow>
+                    Use your mobile device camera to take a picture and upload
+                    it to the server.
+                </mobi:fieldsetRow>
+            </mobi:fieldsetGroup>
+
+            <mobi:fieldsetGroup>
+
+                <mobi:fieldsetRow style="padding-bottom:15px;">
+                    <h:outputLabel for="spell" value="Use Image Button:" style="display:inline-block;margin-top:5px;"/>
+                    <mobi:flipswitch id="spell" style="float:right"
+                                     labelOn="ON" labelOff="OFF"
+                                     value="#{cameraBean.useImages}"><ace:ajax />&#160;</mobi:flipswitch>
+                </mobi:fieldsetRow>
+
+            </mobi:fieldsetGroup>
+
+            <mobi:fieldsetGroup>
+                <mobi:fieldsetRow>
+                    <mobi:camera id="cam" value="#{cameraBean.cameraImage}" rendered="#{(cameraBean.outputResource == null) and (cameraBean.useImages) == false}"
+                                 buttonLabel="Camera" captureMessageLabel="Image captured"
+                                 maxwidth="#{cameraBean.maxWidth}"
+                                 maxheight="#{cameraBean.maxHeight}"/>
+                    <mobi:camera id="cam2" value="#{cameraBean.cameraImage}" rendered="#{(cameraBean.outputResource == null) and (cameraBean.useImages == true)}"
+                                 buttonImage="/resources/css/images/camera.png" captureButtonImage="/resources/css/images/photos.png"
+                                 maxwidth="#{cameraBean.maxWidth}"
+                                 maxheight="#{cameraBean.maxHeight}"/>
+                    <ace:pushButton id="cameraReset" rendered="#{cameraBean.outputResource != null}"
+                                    styleClass="submit"
+                                    actionListener="#{cameraBean.reset}"
+                                    value="Reset"/>
+                </mobi:fieldsetRow>
+            </mobi:fieldsetGroup>
+
+            <h:panelGroup layout="block">
+                <mobi:fieldsetGroup rendered="#{cameraBean.outputResource == null}">
+                    <mobi:fieldsetRow>
+                        <mobi:thumbnail for="cam" id="thumbnail" styleClass="mobi-center" />
+                        <mobi:thumbnail for="cam2" id="thumbnail2" styleClass="mobi-center" />
+                        <ace:pushButton id="cameraUpload"
+                                        styleClass="submit"
+                                        actionListener="#{cameraBean.processUploadedImage}"
+                                        value="Upload Image"/>
+                    </mobi:fieldsetRow>
+                </mobi:fieldsetGroup>
+            </h:panelGroup>
+
+            <h:panelGroup layout="block">                         
+                <mobi:fieldsetGroup rendered="#{cameraBean.outputResource != null}">
+                    <mobi:fieldsetRow>
+                        <h3>Uploaded Image</h3>
+                        <ace:graphicImage styleClass="imageView"
+                                          value="#{cameraBean.outputResource}"/>
+                    </mobi:fieldsetRow>
+                </mobi:fieldsetGroup>
+            </h:panelGroup>
+
+            <h:outputText value="#{cameraBean.uploadMessage}" style="margin-left:10px"/>
+
+        </h:form>
+
+        <h:form prependId="false">
+
+            <h3>Image Dimension Settings</h3>
+
+            <mobi:fieldsetGroup>
+                <mobi:fieldsetRow style="text-align:left">
+                    Set the maximum width and height dimensions for the image (on supported devices). Changes will be applied to the next captured image.
+                </mobi:fieldsetRow>
+                <mobi:fieldsetRow>
+                    <h:outputLabel value="Max width:" for="maxWidth" />
+                    <ace:textEntry id="maxWidth"
+                                   type="number" value="#{cameraBean.maxWidth}" />
+                </mobi:fieldsetRow>
+                <mobi:fieldsetRow>
+                    <h:outputLabel value="Max height:" for="maxHeight" />
+                    <ace:textEntry id="maxHeight"
+                                   type="number" value="#{cameraBean.maxHeight}" />
+                </mobi:fieldsetRow>
+                <mobi:fieldsetRow>
+                    <ace:pushButton value="Set Dimensions" styleClass="submit"/>
+                </mobi:fieldsetRow>
+            </mobi:fieldsetGroup>
+        </h:form>
+    </h:body>
+</html>
+
