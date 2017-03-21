@@ -9,6 +9,7 @@
 
     <h:head>
         <title>Capture Documents</title>
+        <mobi:deviceResource />
     </h:head>
     <h:body>
         <h:form prependId="false" id="cameraform">
@@ -36,10 +37,6 @@
                                  buttonLabel="Camera" captureMessageLabel="Image captured"
                                  maxwidth="#{cameraBean.maxWidth}"
                                  maxheight="#{cameraBean.maxHeight}"/>
-                    <mobi:camera id="cam2" value="#{cameraBean.cameraImage}" rendered="#{(cameraBean.outputResource == null) and (cameraBean.useImages == true)}"
-                                 buttonImage="/resources/css/images/camera.png" captureButtonImage="/resources/css/images/photos.png"
-                                 maxwidth="#{cameraBean.maxWidth}"
-                                 maxheight="#{cameraBean.maxHeight}"/>
                     <ace:pushButton id="cameraReset" rendered="#{cameraBean.outputResource != null}"
                                     styleClass="submit"
                                     actionListener="#{cameraBean.reset}"
@@ -51,7 +48,6 @@
                 <mobi:fieldsetGroup rendered="#{cameraBean.outputResource == null}">
                     <mobi:fieldsetRow>
                         <mobi:thumbnail for="cam" id="thumbnail" styleClass="mobi-center" />
-                        <mobi:thumbnail for="cam2" id="thumbnail2" styleClass="mobi-center" />
                         <ace:pushButton id="cameraUpload"
                                         styleClass="submit"
                                         actionListener="#{cameraBean.processUploadedImage}"
