@@ -19,21 +19,14 @@
                     it to the server.
                 </mobi:fieldsetRow>
             </mobi:fieldsetGroup>
-
             <mobi:fieldsetGroup>
-
                 <mobi:fieldsetRow style="padding-bottom:15px;">
                     <h:outputLabel for="spell" value="Use Image Button:" style="display:inline-block;margin-top:5px;"/>
-                    <mobi:flipswitch id="spell" style="float:right"
-                                     labelOn="ON" labelOff="OFF"
-                                     value="#{cameraBean.useImages}"><ace:ajax />&#160;</mobi:flipswitch>
                 </mobi:fieldsetRow>
-
             </mobi:fieldsetGroup>
-
             <mobi:fieldsetGroup>
                 <mobi:fieldsetRow>
-                    <mobi:camera id="cam" value="#{cameraBean.cameraImage}" rendered="#{(cameraBean.outputResource == null) and (cameraBean.useImages) == false}"
+                    <mobi:camera id="cam" value="#{cameraBean.cameraImage}" 
                                  buttonLabel="Camera" captureMessageLabel="Image captured"
                                  maxwidth="#{cameraBean.maxWidth}"
                                  maxheight="#{cameraBean.maxHeight}"/>
@@ -41,9 +34,9 @@
                                     styleClass="submit"
                                     actionListener="#{cameraBean.reset}"
                                     value="Reset"/>
+                    <input type="file" accept="image/*" id="capture" capture="camera" />
                 </mobi:fieldsetRow>
             </mobi:fieldsetGroup>
-
             <h:panelGroup layout="block">
                 <mobi:fieldsetGroup rendered="#{cameraBean.outputResource == null}">
                     <mobi:fieldsetRow>
@@ -52,10 +45,10 @@
                                         styleClass="submit"
                                         actionListener="#{cameraBean.processUploadedImage}"
                                         value="Upload Image"/>
+                        <ace:fileEntry ></ace:fileEntry>
                     </mobi:fieldsetRow>
                 </mobi:fieldsetGroup>
             </h:panelGroup>
-
             <h:panelGroup layout="block">                         
                 <mobi:fieldsetGroup rendered="#{cameraBean.outputResource != null}">
                     <mobi:fieldsetRow>
@@ -65,15 +58,10 @@
                     </mobi:fieldsetRow>
                 </mobi:fieldsetGroup>
             </h:panelGroup>
-
             <h:outputText value="#{cameraBean.uploadMessage}" style="margin-left:10px"/>
-
         </h:form>
-
         <h:form prependId="false">
-
             <h3>Image Dimension Settings</h3>
-
             <mobi:fieldsetGroup>
                 <mobi:fieldsetRow style="text-align:left">
                     Set the maximum width and height dimensions for the image (on supported devices). Changes will be applied to the next captured image.
