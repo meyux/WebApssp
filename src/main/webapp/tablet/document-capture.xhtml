@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html" 
+    xmlns:f="http://xmlns.jcp.org/jsf/core" 
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" 
+    xmlns:ace="http://www.icefaces.org/icefaces/components" 
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:param name="title" value="#{msgs['example.ace.fileentry.title']}"/>
+    <ui:param name="description" value="#{msgs['example.ace.fileentry.description']}"/>
+
+    <ui:define name="example">
+        <h:form id="example-form">
+            <h:panelGrid styleClass="centeredPanelGrid">
+                <h:outputText value="File Upload" styleClass="headerFontStyle"/>
+            </h:panelGrid>
+            <ace:panel>
+                <ace:fileEntry id="file-entry"
+                               relativePath="/files/"
+                               maxFileCount="10"
+                               maxFileCountMessage="Limited to 10 files uploaded concurrantly."
+                               fileEntryListener="#{fileEntry.sampleListener}"
+                               maxFileSize="6291456"
+                               maxFileSizeMessage="Submitted file is too large."
+                               maxTotalSize="18874368"
+                               maxTotalSizeMessage="Total size of submitted files is too large."
+                               required="true"
+                               requiredMessage="The file is required to submit this form."
+                               useOriginalFilename="true"
+                               useSessionSubdir="true"
+                               autoUpload="false"
+                               multiple="true"/>
+                <br/>
+                <br/>
+                <ace:dataTable id="tbl" value="#{fileEntry.fileData}" var="fileDataVal">
+                    <ace:columnGroup id="columnGroup" type="header">
+                        <ace:row>
+                            <ace:column colspan="3" headerText="Files on Server"/>
+                        </ace:row>
+
+                        <ace:row>
+                            <ace:column headerText="File name"/>
+                            <ace:column headerText="File size"/>
+                            <ace:column headerText="Content Type"/>
+                        </ace:row>
+                    </ace:columnGroup>
+
+                    <ace:column>
+                        <h:outputText value="#{fileDataVal.name}"/>
+                    </ace:column>
+                    <ace:column>
+                        <h:outputText value="#{fileDataVal.size}"/>
+                    </ace:column>
+                    <ace:column>
+                        <h:outputText value="#{fileDataVal.contentType}"/>
+                    </ace:column>
+
+                    <ace:panelExpansion>
+                        <h:outputText rendered="#{not fileDataVal.info == null}" value="#{fileDataVal.info}" />
+                    </ace:panelExpansion>
+
+                    <f:facet name="footer">
+                        <h:panelGrid columns="1">
+                            <h:outputText value="#{fileEntry.totalFiles}"/>
+                            <h:outputText value="#{fileEntry.totalSize}"/>
+                        </h:panelGrid>
+                    </f:facet>
+                </ace:dataTable>
+                <ace:message id="msgs" for="example-form:file-entry"/>
+            </ace:panel>
+        </h:form>
+    </ui:define>       
+</ui:composition>
+
